@@ -10,9 +10,7 @@ format:
         code-copy: true
 ---
 
-(include a brief description of what is in this document)
-
-(Please clean up any comments that I included.  This is a scaffold document.)
+This document is used to demonstrate SQL queries and analyze the tables and relations in this database that orgainizees people, their roles, and thier skills.
 
 GITHUB URL:  <your URL goes here!>
 
@@ -92,30 +90,47 @@ except Exception as e:
 
 ## Overview and description
 
-(briefly describe the project and the database)
+
+This document is used to demonstrate SQL queries and analyze the tables and relations in this database that orgainizees people, their roles, and thier skills.
 
 ## Crows-foot diagram
-
-(add a description of the diagram and what the reader is seeing.)
 
 ```{mermaid}
 %%| echo: false
 erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-    CUSTOMER{
-        int id
+    people ||--o{ skills : have
+    people }|..|{ roles : have
+    people{
+        int id PK
         string first_name
         string last_name
+        string email
+        string linkedin_url
+        string headshot_url
+        string discord_handle
+        string brief_info
+        date date_joined
     }
-    DELIVERY-ADDRESS {
-        int id
+    skills {
+        int id PK
+        string name
+        string description
+        string tag
+        string url
+        string time_commitment
+
+    }
+    roles{
+        int id PK
+        string roles_name
+        int sort_priority
+
     }
 ```
 
 ## Examples of data in the database
 
-For the people, skills, and roles tables, provide a description of each table and it's contents. Then provide a listing of the entire table.
+The people table stores information about individuals, including their unique identifier, names, contact details, LinkedIn profiles, headshot URLs, Discord handles, brief biographies, and the date they joined. The skills table contains details about various skills, such as their names, descriptions, associated tags, URLs, and time commitments. Meanwhile, the roles table includes roles' unique identifiers, names, and sorting priorities. Relationships are established between the people and skills tables, as well as between the people and roles tables. The entire people table comprises ten entries, each representing an individual with specific attributes. Similarly, the skills table encompasses nine entries, and the roles table contains six entries, each with corresponding attributes.
 
 ### People table
 
@@ -149,7 +164,18 @@ Below is a list of data in the *skills* table.
 ```{python}
 #| echo: false
 #| eval: true
-
+sql = f"""
+select * from skills;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
 ## Add code to list roles table here
 ```
 
@@ -162,7 +188,18 @@ Below is a list of data in the *roles* table.
 ```{python}
 #| echo: false
 #| eval: true
-
+sql = f"""
+select * from roles;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
 ## Add code to list roles table here
 ```
 
@@ -177,7 +214,7 @@ Let's explore the database!
 
 ```{python}
 sql = f"""
-select * from people
+select skills_name as skills, tag as tags, description as descriptions from skills
 """
 ```
 
@@ -200,30 +237,200 @@ df
 
 
 ### List people names and email addresses ordered by last_name
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select  people_first_name, people_last_name, email from people
+order by people_last_name;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 
 ### List skill names of Person 1
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select b.skills_name
+from  people_skills a
+left join  skills b using (skills_id)
+left join people c using (people_id) 
+
+where c.people_id = 1;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List people names with Skill 6
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select c.people_first_name, c.people_last_name
+from  people_skills a
+left join  skills b using (skills_id)
+left join people c using (people_id) 
+
+where b.skills_id = 6;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List people with a DEVELOPER role
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select c.people_first_name, c.people_last_name
+from  people_roles a
+left join  roles b using (roles_id)
+left join people c using (people_id) 
+
+where b.roles_name = 'DEVELOPER';
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List names and email addresses of people without skills
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select c.email
+from  people_skills a
+right join  skills b using (skills_id)
+right join people c using (people_id) 
+
+where c.people_id = 4;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List names and tags of unused skills
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select *
+from  people_skills a
+right join  skills b using (skills_id)
+right join people c using (people_id) 
+
+#where c.people_id = 4;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+
+```
+
+## Add code to list roles table here
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select * from roles;
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List people names and skill names with the BOSS role
 
+```{python}
+#| echo: false
+#| eval: true
+sql = f"""
+select c.people_first_name, c.people_last_name, d.skills_name
+from  people_roles a,
+left join people c using (people_id)
+left join  roles b using (roles_id)
+left join people_skills e using (people_skills_id)
+left join skills d using (skills_id)
+
+where b.roles_name = 'BOSS';
+"""
+## Add code to list roles table here
+try:
+    df = pd.read_sql(sql,cnx)
+    df
+except Exception as e:
+    message = str(e)
+    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
+    df = pd.DataFrame()
+df
+## Add code to list roles table here
+```
 
 ### List ids and names of unused roles
 
 
 ## Reflection
 
-(Write a paragraph expressing your thoughts, feelings, and insights about your experience with this assignment.  Pause and breath before writing - I'm trying to encourage critical thinking and self-awareness while allowing you to explore the connections between theory and practice. And yes, delete this paragraph.)
-
+This assignment showed me how relational algebra concepts, like selections and joins, connect to SQL queries. Relational algebra is like the foundation, and SQL is the practical tool we use to work with databases. Understanding these basic ideas makes it easier to write effective SQL queries for tasks like getting specific data or combining information from different tables. It's like having a handy toolkit for managing databases. The selections are like are almost one to one with each other.
