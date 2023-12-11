@@ -3335,8 +3335,11 @@ z-index: 1000;
   <li><a href="#list-people-with-a-developer-role" id="toc-list-people-with-a-developer-role" class="nav-link" data-scroll-target="#list-people-with-a-developer-role">List people with a DEVELOPER role</a></li>
   <li><a href="#list-names-and-email-addresses-of-people-without-skills" id="toc-list-names-and-email-addresses-of-people-without-skills" class="nav-link" data-scroll-target="#list-names-and-email-addresses-of-people-without-skills">List names and email addresses of people without skills</a></li>
   <li><a href="#list-names-and-tags-of-unused-skills" id="toc-list-names-and-tags-of-unused-skills" class="nav-link" data-scroll-target="#list-names-and-tags-of-unused-skills">List names and tags of unused skills</a></li>
+  <li><a href="#add-code-to-list-roles-table-here" id="toc-add-code-to-list-roles-table-here" class="nav-link" data-scroll-target="#add-code-to-list-roles-table-here">Add code to list roles table here</a>
+  <ul class="collapse">
   <li><a href="#list-people-names-and-skill-names-with-the-boss-role" id="toc-list-people-names-and-skill-names-with-the-boss-role" class="nav-link" data-scroll-target="#list-people-names-and-skill-names-with-the-boss-role">List people names and skill names with the BOSS role</a></li>
   <li><a href="#list-ids-and-names-of-unused-roles" id="toc-list-ids-and-names-of-unused-roles" class="nav-link" data-scroll-target="#list-ids-and-names-of-unused-roles">List ids and names of unused roles</a></li>
+  </ul></li>
   <li><a href="#reflection" id="toc-reflection" class="nav-link" data-scroll-target="#reflection">Reflection</a></li>
   </ul></li>
   </ul>
@@ -3373,43 +3376,46 @@ z-index: 1000;
 
 </header>
 
-<p>(include a brief description of what is in this document)</p>
-<p>(Please clean up any comments that I included. This is a scaffold document.)</p>
+<p>This document is used to demonstrate SQL queries and analyze the tables and relations in this database that orgainizees people, their roles, and thier skills.</p>
 <p>GITHUB URL: &lt;your URL goes here!&gt;</p>
-<div class="cell" data-execution_count="2">
-<div class="cell-output cell-output-stdout">
-<pre><code>Missing HW7_DB_NAME in .env file</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>Database/SQL Error:
-(pymysql.err.OperationalError) (1044, &quot;Access denied for user &#39;23FA_ransoms2&#39;@&#39;%&#39; to database &#39;None&#39;&quot;)
-(Background on this error at: https://sqlalche.me/e/20/e3q8)
-</code></pre>
-</div>
-</div>
 <section id="overview-and-description" class="level2">
 <h2 class="anchored" data-anchor-id="overview-and-description">Overview and description</h2>
-<p>(briefly describe the project and the database)</p>
+<p>This document is used to demonstrate SQL queries and analyze the tables and relations in this database that orgainizees people, their roles, and thier skills.</p>
 </section>
 <section id="crows-foot-diagram" class="level2">
 <h2 class="anchored" data-anchor-id="crows-foot-diagram">Crows-foot diagram</h2>
-<p>(add a description of the diagram and what the reader is seeing.)</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <div>
 <pre class="mermaid mermaid-js">erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-    CUSTOMER{
-        int id
+    people ||--o{ skills : have
+    people }|..|{ roles : have
+    people{
+        int id PK
         string first_name
         string last_name
+        string email
+        string linkedin_url
+        string headshot_url
+        string discord_handle
+        string brief_info
+        date date_joined
     }
-    DELIVERY-ADDRESS {
-        int id
+    skills {
+        int id PK
+        string name
+        string description
+        string tag
+        string url
+        string time_commitment
+
+    }
+    roles{
+        int id PK
+        string roles_name
+        int sort_priority
+
     }
 </pre>
 </div>
@@ -3419,20 +3425,12 @@ z-index: 1000;
 </section>
 <section id="examples-of-data-in-the-database" class="level2">
 <h2 class="anchored" data-anchor-id="examples-of-data-in-the-database">Examples of data in the database</h2>
-<p>For the people, skills, and roles tables, provide a description of each table and it’s contents. Then provide a listing of the entire table.</p>
+<p>The people table stores information about individuals, including their unique identifier, names, contact details, LinkedIn profiles, headshot URLs, Discord handles, brief biographies, and the date they joined. The skills table contains details about various skills, such as their names, descriptions, associated tags, URLs, and time commitments. Meanwhile, the roles table includes roles’ unique identifiers, names, and sorting priorities. Relationships are established between the people and skills tables, as well as between the people and roles tables. The entire people table comprises ten entries, each representing an individual with specific attributes. Similarly, the skills table encompasses nine entries, and the roles table contains six entries, each with corresponding attributes.</p>
 <section id="people-table" class="level3">
 <h3 class="anchored" data-anchor-id="people-table">People table</h3>
 <p>The <em>people</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>people</em> table.</p>
 <div class="cell" data-execution_count="5">
-<div class="cell-output cell-output-stdout">
-<pre><code>An error occurred:
-
-(pymysql.err.OperationalError) (1044, &quot;Access denied for user &#39;23FA_ransoms2&#39;@&#39;%&#39; to database &#39;None&#39;&quot;)
-(Background on this error at: https://sqlalche.me/e/20/e3q8)
-
-Ignoring and moving on.</code></pre>
-</div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -3441,9 +3439,138 @@ Ignoring and moving on.</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">people_id</th>
+<th data-quarto-table-cell-role="th">people_last_name</th>
+<th data-quarto-table-cell-role="th">people_first_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">linkedin_url</th>
+<th data-quarto-table-cell-role="th">headshot_url</th>
+<th data-quarto-table-cell-role="th">discord_handle</th>
+<th data-quarto-table-cell-role="th">brief_bio</th>
+<th data-quarto-table-cell-role="th">date_joined</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Smith</td>
+<td>John</td>
+<td>john.smith@email.com</td>
+<td>https://www.linkedin.com/in/johnsmith</td>
+<td>https://example.com/johnsmith.jpg</td>
+<td>johnsmith#1234</td>
+<td>Passionate software engineer</td>
+<td>2023-01-01</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Johnson</td>
+<td>Emily</td>
+<td>emily.johnson@email.com</td>
+<td>https://www.linkedin.com/in/emilyjohnson</td>
+<td>https://example.com/emilyjohnson.jpg</td>
+<td>emilyjohnson#5678</td>
+<td>Marketing enthusiast</td>
+<td>2023-02-15</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Brown</td>
+<td>Michael</td>
+<td>michael.brown@email.com</td>
+<td>https://www.linkedin.com/in/michaelbrown</td>
+<td>https://example.com/michaelbrown.jpg</td>
+<td>michaelbrown#9876</td>
+<td>Creative designer with a flair for art</td>
+<td>2023-03-20</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Jones</td>
+<td>Jessica</td>
+<td>jessica.jones@email.com</td>
+<td>https://www.linkedin.com/in/jessicajones</td>
+<td>https://example.com/jessicajones.jpg</td>
+<td>jessicajones#4321</td>
+<td>Experienced project manager</td>
+<td>2023-04-10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Miller</td>
+<td>David</td>
+<td>david.miller@email.com</td>
+<td>https://www.linkedin.com/in/davidmiller</td>
+<td>https://example.com/davidmiller.jpg</td>
+<td>davidmiller#7890</td>
+<td>Passionate about data science</td>
+<td>2023-05-05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>Garcia</td>
+<td>Sophia</td>
+<td>sophia.garcia@email.com</td>
+<td>https://www.linkedin.com/in/sophiagarcia</td>
+<td>https://example.com/sophiagarcia.jpg</td>
+<td>sophiagarcia#6543</td>
+<td>Entrepreneur and business strategist</td>
+<td>2023-06-25</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>Taylor</td>
+<td>Olivia</td>
+<td>olivia.taylor@email.com</td>
+<td>https://www.linkedin.com/in/oliviataylor</td>
+<td>https://example.com/oliviataylor.jpg</td>
+<td>oliviataylor#2468</td>
+<td>Environmental advocate and researcher</td>
+<td>2023-07-12</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>Anderson</td>
+<td>Christopher</td>
+<td>christopher.anderson@email.com</td>
+<td>https://www.linkedin.com/in/christopheranderson</td>
+<td>https://example.com/christopheranderson.jpg</td>
+<td>christopheranderson#1357</td>
+<td>Technology enthusiast and AI developer</td>
+<td>2023-08-18</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>Wang</td>
+<td>Lily</td>
+<td>lily.wang@email.com</td>
+<td>https://www.linkedin.com/in/lilywang</td>
+<td>https://example.com/lilywang.jpg</td>
+<td>lilywang#3690</td>
+<td>International relations specialist</td>
+<td>2023-09-30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>10</td>
+<td>Martinez</td>
+<td>Carlos</td>
+<td>carlos.martinez@email.com</td>
+<td>https://www.linkedin.com/in/carlosmartinez</td>
+<td>https://example.com/carlosmartinez.jpg</td>
+<td>carlosmartinez#8024</td>
+<td>Finance and investment expert</td>
+<td>2023-10-22</td>
+</tr>
 </tbody>
 </table>
 
@@ -3455,11 +3582,173 @@ Ignoring and moving on.</code></pre>
 <h3 class="anchored" data-anchor-id="skills-table">Skills table</h3>
 <p>The <em>skills</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>skills</em> table.</p>
+<div class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">skills_id</th>
+<th data-quarto-table-cell-role="th">skills_name</th>
+<th data-quarto-table-cell-role="th">description</th>
+<th data-quarto-table-cell-role="th">tag</th>
+<th data-quarto-table-cell-role="th">url</th>
+<th data-quarto-table-cell-role="th">time_commitment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>saxaphonist</td>
+<td>a professional level saxaphonist</td>
+<td>Skill 1</td>
+<td>https://random_url1</td>
+<td>8 years</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>pianist</td>
+<td>a professional level pianist</td>
+<td>Skill 2</td>
+<td>https://random_url2</td>
+<td>8 years</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>barber</td>
+<td>a professional level barber</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>1 year</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>teacher</td>
+<td>someone with the ability to teach others</td>
+<td>Skill 6</td>
+<td>https://random_url6</td>
+<td>4 years</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>boxer</td>
+<td>a professional fighter who plays in the sport ...</td>
+<td>Skill 7</td>
+<td>https://random_url7</td>
+<td>2 years</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>zooligist</td>
+<td>someone who works with animals</td>
+<td>Skill 8</td>
+<td>https://random_url8</td>
+<td>4 years</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 </section>
 <section id="roles-table" class="level3">
 <h3 class="anchored" data-anchor-id="roles-table">Roles table</h3>
 <p>The <em>roles</em> table contains elements that describe …</p>
 <p>Below is a list of data in the <em>roles</em> table.</p>
+<div class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">roles_id</th>
+<th data-quarto-table-cell-role="th">roles_name</th>
+<th data-quarto-table-cell-role="th">sort_priority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Designer</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Developer</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Recruit</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Team Lead</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Boss</td>
+<td>50</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>Mentor</td>
+<td>60</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sample-queries" class="level2">
@@ -3470,21 +3759,985 @@ Ignoring and moving on.</code></pre>
 <h1>List skill names, tags, and descriptions ordered by name</h1>
 <p>(here a sample query)</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="ss">f&quot;&quot;&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ss">select * from people</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ss">&quot;&quot;&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="ss">f&quot;&quot;&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ss">select skills_name as skills, tag as tags, description as descriptions from skills</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ss">&quot;&quot;&quot;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(and here is a sample result from the query)</p>
 <div class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">skills</th>
+<th data-quarto-table-cell-role="th">tags</th>
+<th data-quarto-table-cell-role="th">descriptions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>saxaphonist</td>
+<td>Skill 1</td>
+<td>a professional level saxaphonist</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>pianist</td>
+<td>Skill 2</td>
+<td>a professional level pianist</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>drummer</td>
+<td>Skill 3</td>
+<td>a professional level drummer</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>barber</td>
+<td>Skill 3</td>
+<td>a professional level barber</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>gamer</td>
+<td>Skill 4</td>
+<td>an elite level gamer</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>cook</td>
+<td>Skill 5</td>
+<td>an amazing home cook</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>teacher</td>
+<td>Skill 6</td>
+<td>someone with the ability to teach others</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>boxer</td>
+<td>Skill 7</td>
+<td>a professional fighter who plays in the sport ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>zooligist</td>
+<td>Skill 8</td>
+<td>someone who works with animals</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="list-people-names-and-email-addresses-ordered-by-last_name" class="level3">
+<h3 class="anchored" data-anchor-id="list-people-names-and-email-addresses-ordered-by-last_name">List people names and email addresses ordered by last_name</h3>
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">people_first_name</th>
+<th data-quarto-table-cell-role="th">people_last_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Christopher</td>
+<td>Anderson</td>
+<td>christopher.anderson@email.com</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Michael</td>
+<td>Brown</td>
+<td>michael.brown@email.com</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Sophia</td>
+<td>Garcia</td>
+<td>sophia.garcia@email.com</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Emily</td>
+<td>Johnson</td>
+<td>emily.johnson@email.com</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Jessica</td>
+<td>Jones</td>
+<td>jessica.jones@email.com</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Carlos</td>
+<td>Martinez</td>
+<td>carlos.martinez@email.com</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>David</td>
+<td>Miller</td>
+<td>david.miller@email.com</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>John</td>
+<td>Smith</td>
+<td>john.smith@email.com</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Olivia</td>
+<td>Taylor</td>
+<td>olivia.taylor@email.com</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Lily</td>
+<td>Wang</td>
+<td>lily.wang@email.com</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="list-skill-names-of-person-1" class="level3">
+<h3 class="anchored" data-anchor-id="list-skill-names-of-person-1">List skill names of Person 1</h3>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">skills_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>saxaphonist</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>drummer</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>cook</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="list-people-names-with-skill-6" class="level3">
+<h3 class="anchored" data-anchor-id="list-people-names-with-skill-6">List people names with Skill 6</h3>
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">people_first_name</th>
+<th data-quarto-table-cell-role="th">people_last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>John</td>
+<td>Smith</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>David</td>
+<td>Miller</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Olivia</td>
+<td>Taylor</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Christopher</td>
+<td>Anderson</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Lily</td>
+<td>Wang</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="list-people-with-a-developer-role" class="level3">
+<h3 class="anchored" data-anchor-id="list-people-with-a-developer-role">List people with a DEVELOPER role</h3>
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">people_first_name</th>
+<th data-quarto-table-cell-role="th">people_last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>John</td>
+<td>Smith</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Michael</td>
+<td>Brown</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Sophia</td>
+<td>Garcia</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lily</td>
+<td>Wang</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Carlos</td>
+<td>Martinez</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="list-names-and-email-addresses-of-people-without-skills" class="level3">
+<h3 class="anchored" data-anchor-id="list-names-and-email-addresses-of-people-without-skills">List names and email addresses of people without skills</h3>
+<div class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">email</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>jessica.jones@email.com</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="list-names-and-tags-of-unused-skills" class="level3">
+<h3 class="anchored" data-anchor-id="list-names-and-tags-of-unused-skills">List names and tags of unused skills</h3>
+<div class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">people_id</th>
+<th data-quarto-table-cell-role="th">people_last_name</th>
+<th data-quarto-table-cell-role="th">people_first_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">linkedin_url</th>
+<th data-quarto-table-cell-role="th">headshot_url</th>
+<th data-quarto-table-cell-role="th">discord_handle</th>
+<th data-quarto-table-cell-role="th">brief_bio</th>
+<th data-quarto-table-cell-role="th">date_joined</th>
+<th data-quarto-table-cell-role="th">skills_id</th>
+<th data-quarto-table-cell-role="th">skills_name</th>
+<th data-quarto-table-cell-role="th">description</th>
+<th data-quarto-table-cell-role="th">tag</th>
+<th data-quarto-table-cell-role="th">url</th>
+<th data-quarto-table-cell-role="th">time_commitment</th>
+<th data-quarto-table-cell-role="th">people_skills_id</th>
+<th data-quarto-table-cell-role="th">date_acquired</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Smith</td>
+<td>John</td>
+<td>john.smith@email.com</td>
+<td>https://www.linkedin.com/in/johnsmith</td>
+<td>https://example.com/johnsmith.jpg</td>
+<td>johnsmith#1234</td>
+<td>Passionate software engineer</td>
+<td>2023-01-01</td>
+<td>1.0</td>
+<td>saxaphonist</td>
+<td>a professional level saxaphonist</td>
+<td>Skill 1</td>
+<td>https://random_url1</td>
+<td>8 years</td>
+<td>1.0</td>
+<td>2023-01-05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>Smith</td>
+<td>John</td>
+<td>john.smith@email.com</td>
+<td>https://www.linkedin.com/in/johnsmith</td>
+<td>https://example.com/johnsmith.jpg</td>
+<td>johnsmith#1234</td>
+<td>Passionate software engineer</td>
+<td>2023-01-01</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>2.0</td>
+<td>2023-01-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>Smith</td>
+<td>John</td>
+<td>john.smith@email.com</td>
+<td>https://www.linkedin.com/in/johnsmith</td>
+<td>https://example.com/johnsmith.jpg</td>
+<td>johnsmith#1234</td>
+<td>Passionate software engineer</td>
+<td>2023-01-01</td>
+<td>6.0</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+<td>3.0</td>
+<td>2023-01-10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2</td>
+<td>Johnson</td>
+<td>Emily</td>
+<td>emily.johnson@email.com</td>
+<td>https://www.linkedin.com/in/emilyjohnson</td>
+<td>https://example.com/emilyjohnson.jpg</td>
+<td>emilyjohnson#5678</td>
+<td>Marketing enthusiast</td>
+<td>2023-02-15</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>4.0</td>
+<td>2023-02-20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2</td>
+<td>Johnson</td>
+<td>Emily</td>
+<td>emily.johnson@email.com</td>
+<td>https://www.linkedin.com/in/emilyjohnson</td>
+<td>https://example.com/emilyjohnson.jpg</td>
+<td>emilyjohnson#5678</td>
+<td>Marketing enthusiast</td>
+<td>2023-02-15</td>
+<td>4.0</td>
+<td>barber</td>
+<td>a professional level barber</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>1 year</td>
+<td>5.0</td>
+<td>2023-02-22</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2</td>
+<td>Johnson</td>
+<td>Emily</td>
+<td>emily.johnson@email.com</td>
+<td>https://www.linkedin.com/in/emilyjohnson</td>
+<td>https://example.com/emilyjohnson.jpg</td>
+<td>emilyjohnson#5678</td>
+<td>Marketing enthusiast</td>
+<td>2023-02-15</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>6.0</td>
+<td>2023-02-25</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>3</td>
+<td>Brown</td>
+<td>Michael</td>
+<td>michael.brown@email.com</td>
+<td>https://www.linkedin.com/in/michaelbrown</td>
+<td>https://example.com/michaelbrown.jpg</td>
+<td>michaelbrown#9876</td>
+<td>Creative designer with a flair for art</td>
+<td>2023-03-20</td>
+<td>1.0</td>
+<td>saxaphonist</td>
+<td>a professional level saxaphonist</td>
+<td>Skill 1</td>
+<td>https://random_url1</td>
+<td>8 years</td>
+<td>7.0</td>
+<td>2023-03-25</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>3</td>
+<td>Brown</td>
+<td>Michael</td>
+<td>michael.brown@email.com</td>
+<td>https://www.linkedin.com/in/michaelbrown</td>
+<td>https://example.com/michaelbrown.jpg</td>
+<td>michaelbrown#9876</td>
+<td>Creative designer with a flair for art</td>
+<td>2023-03-20</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>8.0</td>
+<td>2023-03-27</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>4</td>
+<td>Jones</td>
+<td>Jessica</td>
+<td>jessica.jones@email.com</td>
+<td>https://www.linkedin.com/in/jessicajones</td>
+<td>https://example.com/jessicajones.jpg</td>
+<td>jessicajones#4321</td>
+<td>Experienced project manager</td>
+<td>2023-04-10</td>
+<td>NaN</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>NaN</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>5</td>
+<td>Miller</td>
+<td>David</td>
+<td>david.miller@email.com</td>
+<td>https://www.linkedin.com/in/davidmiller</td>
+<td>https://example.com/davidmiller.jpg</td>
+<td>davidmiller#7890</td>
+<td>Passionate about data science</td>
+<td>2023-05-05</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>9.0</td>
+<td>2023-05-10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>5</td>
+<td>Miller</td>
+<td>David</td>
+<td>david.miller@email.com</td>
+<td>https://www.linkedin.com/in/davidmiller</td>
+<td>https://example.com/davidmiller.jpg</td>
+<td>davidmiller#7890</td>
+<td>Passionate about data science</td>
+<td>2023-05-05</td>
+<td>6.0</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+<td>10.0</td>
+<td>2023-05-15</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>6</td>
+<td>Garcia</td>
+<td>Sophia</td>
+<td>sophia.garcia@email.com</td>
+<td>https://www.linkedin.com/in/sophiagarcia</td>
+<td>https://example.com/sophiagarcia.jpg</td>
+<td>sophiagarcia#6543</td>
+<td>Entrepreneur and business strategist</td>
+<td>2023-06-25</td>
+<td>2.0</td>
+<td>pianist</td>
+<td>a professional level pianist</td>
+<td>Skill 2</td>
+<td>https://random_url2</td>
+<td>8 years</td>
+<td>11.0</td>
+<td>2023-06-30</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>6</td>
+<td>Garcia</td>
+<td>Sophia</td>
+<td>sophia.garcia@email.com</td>
+<td>https://www.linkedin.com/in/sophiagarcia</td>
+<td>https://example.com/sophiagarcia.jpg</td>
+<td>sophiagarcia#6543</td>
+<td>Entrepreneur and business strategist</td>
+<td>2023-06-25</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>12.0</td>
+<td>2023-07-05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>6</td>
+<td>Garcia</td>
+<td>Sophia</td>
+<td>sophia.garcia@email.com</td>
+<td>https://www.linkedin.com/in/sophiagarcia</td>
+<td>https://example.com/sophiagarcia.jpg</td>
+<td>sophiagarcia#6543</td>
+<td>Entrepreneur and business strategist</td>
+<td>2023-06-25</td>
+<td>4.0</td>
+<td>barber</td>
+<td>a professional level barber</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>1 year</td>
+<td>13.0</td>
+<td>2023-07-08</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>7</td>
+<td>Taylor</td>
+<td>Olivia</td>
+<td>olivia.taylor@email.com</td>
+<td>https://www.linkedin.com/in/oliviataylor</td>
+<td>https://example.com/oliviataylor.jpg</td>
+<td>oliviataylor#2468</td>
+<td>Environmental advocate and researcher</td>
+<td>2023-07-12</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>14.0</td>
+<td>2023-08-25</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>7</td>
+<td>Taylor</td>
+<td>Olivia</td>
+<td>olivia.taylor@email.com</td>
+<td>https://www.linkedin.com/in/oliviataylor</td>
+<td>https://example.com/oliviataylor.jpg</td>
+<td>oliviataylor#2468</td>
+<td>Environmental advocate and researcher</td>
+<td>2023-07-12</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>15.0</td>
+<td>2023-08-30</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>7</td>
+<td>Taylor</td>
+<td>Olivia</td>
+<td>olivia.taylor@email.com</td>
+<td>https://www.linkedin.com/in/oliviataylor</td>
+<td>https://example.com/oliviataylor.jpg</td>
+<td>oliviataylor#2468</td>
+<td>Environmental advocate and researcher</td>
+<td>2023-07-12</td>
+<td>6.0</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+<td>16.0</td>
+<td>2023-09-02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>8</td>
+<td>Anderson</td>
+<td>Christopher</td>
+<td>christopher.anderson@email.com</td>
+<td>https://www.linkedin.com/in/christopheranderson</td>
+<td>https://example.com/christopheranderson.jpg</td>
+<td>christopheranderson#1357</td>
+<td>Technology enthusiast and AI developer</td>
+<td>2023-08-18</td>
+<td>1.0</td>
+<td>saxaphonist</td>
+<td>a professional level saxaphonist</td>
+<td>Skill 1</td>
+<td>https://random_url1</td>
+<td>8 years</td>
+<td>17.0</td>
+<td>2023-09-10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>8</td>
+<td>Anderson</td>
+<td>Christopher</td>
+<td>christopher.anderson@email.com</td>
+<td>https://www.linkedin.com/in/christopheranderson</td>
+<td>https://example.com/christopheranderson.jpg</td>
+<td>christopheranderson#1357</td>
+<td>Technology enthusiast and AI developer</td>
+<td>2023-08-18</td>
+<td>3.0</td>
+<td>drummer</td>
+<td>a professional level drummer</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>10 years</td>
+<td>18.0</td>
+<td>2023-09-15</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>8</td>
+<td>Anderson</td>
+<td>Christopher</td>
+<td>christopher.anderson@email.com</td>
+<td>https://www.linkedin.com/in/christopheranderson</td>
+<td>https://example.com/christopheranderson.jpg</td>
+<td>christopheranderson#1357</td>
+<td>Technology enthusiast and AI developer</td>
+<td>2023-08-18</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>19.0</td>
+<td>2023-09-18</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>8</td>
+<td>Anderson</td>
+<td>Christopher</td>
+<td>christopher.anderson@email.com</td>
+<td>https://www.linkedin.com/in/christopheranderson</td>
+<td>https://example.com/christopheranderson.jpg</td>
+<td>christopheranderson#1357</td>
+<td>Technology enthusiast and AI developer</td>
+<td>2023-08-18</td>
+<td>6.0</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+<td>20.0</td>
+<td>2023-09-20</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>9</td>
+<td>Wang</td>
+<td>Lily</td>
+<td>lily.wang@email.com</td>
+<td>https://www.linkedin.com/in/lilywang</td>
+<td>https://example.com/lilywang.jpg</td>
+<td>lilywang#3690</td>
+<td>International relations specialist</td>
+<td>2023-09-30</td>
+<td>2.0</td>
+<td>pianist</td>
+<td>a professional level pianist</td>
+<td>Skill 2</td>
+<td>https://random_url2</td>
+<td>8 years</td>
+<td>21.0</td>
+<td>2023-10-22</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>9</td>
+<td>Wang</td>
+<td>Lily</td>
+<td>lily.wang@email.com</td>
+<td>https://www.linkedin.com/in/lilywang</td>
+<td>https://example.com/lilywang.jpg</td>
+<td>lilywang#3690</td>
+<td>International relations specialist</td>
+<td>2023-09-30</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>22.0</td>
+<td>2023-10-25</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>9</td>
+<td>Wang</td>
+<td>Lily</td>
+<td>lily.wang@email.com</td>
+<td>https://www.linkedin.com/in/lilywang</td>
+<td>https://example.com/lilywang.jpg</td>
+<td>lilywang#3690</td>
+<td>International relations specialist</td>
+<td>2023-09-30</td>
+<td>6.0</td>
+<td>cook</td>
+<td>an amazing home cook</td>
+<td>Skill 5</td>
+<td>https://random_url5</td>
+<td>3 months</td>
+<td>23.0</td>
+<td>2023-10-28</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>10</td>
+<td>Martinez</td>
+<td>Carlos</td>
+<td>carlos.martinez@email.com</td>
+<td>https://www.linkedin.com/in/carlosmartinez</td>
+<td>https://example.com/carlosmartinez.jpg</td>
+<td>carlosmartinez#8024</td>
+<td>Finance and investment expert</td>
+<td>2023-10-22</td>
+<td>1.0</td>
+<td>saxaphonist</td>
+<td>a professional level saxaphonist</td>
+<td>Skill 1</td>
+<td>https://random_url1</td>
+<td>8 years</td>
+<td>24.0</td>
+<td>2023-11-05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>10</td>
+<td>Martinez</td>
+<td>Carlos</td>
+<td>carlos.martinez@email.com</td>
+<td>https://www.linkedin.com/in/carlosmartinez</td>
+<td>https://example.com/carlosmartinez.jpg</td>
+<td>carlosmartinez#8024</td>
+<td>Finance and investment expert</td>
+<td>2023-10-22</td>
+<td>4.0</td>
+<td>barber</td>
+<td>a professional level barber</td>
+<td>Skill 3</td>
+<td>https://random_url3</td>
+<td>1 year</td>
+<td>25.0</td>
+<td>2023-11-08</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>10</td>
+<td>Martinez</td>
+<td>Carlos</td>
+<td>carlos.martinez@email.com</td>
+<td>https://www.linkedin.com/in/carlosmartinez</td>
+<td>https://example.com/carlosmartinez.jpg</td>
+<td>carlosmartinez#8024</td>
+<td>Finance and investment expert</td>
+<td>2023-10-22</td>
+<td>5.0</td>
+<td>gamer</td>
+<td>an elite level gamer</td>
+<td>Skill 4</td>
+<td>https://random_url4</td>
+<td>5 months</td>
+<td>26.0</td>
+<td>2023-11-10</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="add-code-to-list-roles-table-here" class="level2">
+<h2 class="anchored" data-anchor-id="add-code-to-list-roles-table-here">Add code to list roles table here</h2>
+<div class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">roles_id</th>
+<th data-quarto-table-cell-role="th">roles_name</th>
+<th data-quarto-table-cell-role="th">sort_priority</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Designer</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Developer</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Recruit</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Team Lead</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Boss</td>
+<td>50</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>Mentor</td>
+<td>60</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="list-people-names-and-skill-names-with-the-boss-role" class="level3">
+<h3 class="anchored" data-anchor-id="list-people-names-and-skill-names-with-the-boss-role">List people names and skill names with the BOSS role</h3>
+<div class="cell" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>An error occurred:
 
-(pymysql.err.OperationalError) (1044, &quot;Access denied for user &#39;23FA_ransoms2&#39;@&#39;%&#39; to database &#39;None&#39;&quot;)
-(Background on this error at: https://sqlalche.me/e/20/e3q8)
+(pymysql.err.ProgrammingError) (1064, &quot;You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;left join people c using (people_id)\nleft join  roles b using (roles_id)\nleft jo&#39; at line 3&quot;)
+[SQL: 
+select c.people_first_name, c.people_last_name, d.skills_name
+from  people_roles a,
+left join people c using (people_id)
+left join  roles b using (roles_id)
+left join people_skills e using (people_skills_id)
+left join skills d using (skills_id)
+
+where b.roles_name = &#39;BOSS&#39;;
+]
+(Background on this error at: https://sqlalche.me/e/20/f405)
 
 Ignoring and moving on.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -3501,33 +4754,14 @@ Ignoring and moving on.</code></pre>
 </div>
 </div>
 </div>
-<section id="list-people-names-and-email-addresses-ordered-by-last_name" class="level3">
-<h3 class="anchored" data-anchor-id="list-people-names-and-email-addresses-ordered-by-last_name">List people names and email addresses ordered by last_name</h3>
-</section>
-<section id="list-skill-names-of-person-1" class="level3">
-<h3 class="anchored" data-anchor-id="list-skill-names-of-person-1">List skill names of Person 1</h3>
-</section>
-<section id="list-people-names-with-skill-6" class="level3">
-<h3 class="anchored" data-anchor-id="list-people-names-with-skill-6">List people names with Skill 6</h3>
-</section>
-<section id="list-people-with-a-developer-role" class="level3">
-<h3 class="anchored" data-anchor-id="list-people-with-a-developer-role">List people with a DEVELOPER role</h3>
-</section>
-<section id="list-names-and-email-addresses-of-people-without-skills" class="level3">
-<h3 class="anchored" data-anchor-id="list-names-and-email-addresses-of-people-without-skills">List names and email addresses of people without skills</h3>
-</section>
-<section id="list-names-and-tags-of-unused-skills" class="level3">
-<h3 class="anchored" data-anchor-id="list-names-and-tags-of-unused-skills">List names and tags of unused skills</h3>
-</section>
-<section id="list-people-names-and-skill-names-with-the-boss-role" class="level3">
-<h3 class="anchored" data-anchor-id="list-people-names-and-skill-names-with-the-boss-role">List people names and skill names with the BOSS role</h3>
 </section>
 <section id="list-ids-and-names-of-unused-roles" class="level3">
 <h3 class="anchored" data-anchor-id="list-ids-and-names-of-unused-roles">List ids and names of unused roles</h3>
 </section>
+</section>
 <section id="reflection" class="level2">
 <h2 class="anchored" data-anchor-id="reflection">Reflection</h2>
-<p>(Write a paragraph expressing your thoughts, feelings, and insights about your experience with this assignment. Pause and breath before writing - I’m trying to encourage critical thinking and self-awareness while allowing you to explore the connections between theory and practice. And yes, delete this paragraph.)</p>
+<p>This assignment showed me how relational algebra concepts, like selections and joins, connect to SQL queries. Relational algebra is like the foundation, and SQL is the practical tool we use to work with databases. Understanding these basic ideas makes it easier to write effective SQL queries for tasks like getting specific data or combining information from different tables. It’s like having a handy toolkit for managing databases. The selections are like are almost one to one with each other.</p>
 </section>
 </section>
 
